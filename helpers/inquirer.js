@@ -7,18 +7,9 @@ const menuOpts = [
         name: 'opcion',
         message: '¿Que desea hacer?',
         choices: [
-            {
-                value: 1,
-                name:`${'1'.green}. Buscar ciudad`,
-            },
-            {
-                value: 2,
-                name:`${'2'.green}. Historial`
-            },
-            {
-                value: 0,
-                name:`${'0'.green}. Salir`
-            },
+            { value: 1, name:`${'1'.green}. Buscar ciudad`,},
+            { value: 2, name:`${'2'.green}. Historial` },
+            { value: 0, name:`${'0'.green}. Salir` },
         ]
     }
 ]
@@ -40,10 +31,7 @@ const inquirerMenu = async() => {
     console.log("Seleccione una opcion ".green);
     console.log("=======================\n".green);
 
-
-
     const {opcion} = await inquirer.prompt(menuOpts)
-
     return opcion;
 }
 
@@ -61,7 +49,6 @@ const menuListadoTareas = async( data = [] ) => {
     ]
 
     const {opcion} = await inquirer.prompt(menuOpts);
-
     return opcion;
 }
 
@@ -71,52 +58,25 @@ const mostrarListadoCheckList = async( tareas = [] ) => {
 
     const choices = tareas.map( (tarea, i) =>{
         const idx = `${i + 1}`.green;
-
-        return {
-            value:tarea.id,
-            name:`${idx} ${tarea.desc}`,
-            checked: (tarea.completadoEn)
-        }
+        return { value:tarea.id, name:`${idx} ${tarea.desc}`, checked: (tarea.completadoEn) }
     })
-
-    const menuOpts = [
-        {
-            type: 'checkbox',
-            name: 'ids',
-            message: 'Selecciones',
-            choices
-        }     
-    ]
-
+    const menuOpts = [ { type: 'checkbox', name: 'ids', message: 'Selecciones', choices } ];
     const {ids} = await inquirer.prompt(menuOpts);
-
     return ids;
 }
 
 
 const confirmar =  async (message) => {
-
-    const question = [
-        {
-            type:'confirm',
-            name:'ok',
-            message
-        }
-    ];
-
+    const question = [ { type:'confirm', name:'ok', message } ];
     const {ok} = await inquirer.prompt(question);
-
-
     return ok;
 }
 
 
 
 const pausa = async() => {
-
     console.log("\n");
     const {enter} = await inquirer.prompt(pausas)
-
     return enter;
 }
 
@@ -136,10 +96,7 @@ const leerInput = async( message ) =>{
         }
        }
     ];
-
-
     const { desc } = await inquirer.prompt( question );
-
     return desc;
 }
 
