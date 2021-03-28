@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const { leerInput, pausa, inquirerMenu } = require("./helpers/inquirer");
+const { leerInput, pausa, inquirerMenu,listarLugares } = require("./helpers/inquirer");
 const Busquedas = require("./models/busqueda");
 
 
@@ -15,27 +15,48 @@ const main = async() => {
 
 
         switch(opt){
-          case 1:
+            case 1:
 
-            const lugar = await leerInput('Ciudad : ');
+                const termino = await leerInput('Ciudad : ');
+                const lugares  = await busquedas.ciudad(termino);
+                const id = await listarLugares(lugares);
+
+                if(id === '0') continue;
+
+                const lugarSel = lugares.find(l => (l.id == id));
+                busquedas.agregarHistorial(lugarSel.nombre);
 
 
-            await busquedas.ciudad(lugar);
-
-            console.log(lugar);
-               //mostrar mensaje 
-               //buscar lugar
-               //seleccionar lugar
-               //clima
-               //mostrar resultados
-               console.log('\ninformacion del lugar\n'.green);
-               console.log('\n Ciudad: \n', );
-               console.log('\n Lat: \n', );
-               console.log('\n Long: \n', );
-               console.log('\n Temperature: \n', );
+                const clima = await busquedas.climaLugar(lugarSel.lat, lugarSel.lng);
+                //mostrar mensaje 
+                //buscar lugar
+                //seleccionar lugar
+                //clima
+                //    console.log(clima);
+                //mostrar resultados
+                console.log('\ninformacion del lugar\n'.green);
+                console.log('Ciudad:', lugarSel.nombre);
+                console.log('Lat: ', lugarSel.lat);
+                console.log('Long: ', lugarSel.lng);
+                console.log('Temperature: ', clima.temp);
+                console.log('Minima: ', clima.temp_min);
+                console.log('Maxima: ', clima.temp_max );
+                console.log('Como esta el clima: ', `${clima.description}`.green );
 
 
               break;  
+
+            case 2:
+
+                    // console.log(busquedas.historialCapitalizado);
+                
+                    busquedas.historialCapitalizado?.forEach((lugar, i )=> {
+
+                        const idx = `${i + 1}`.green;
+                        console.log(`${idx}. ${lugar}`);
+                    });  
+
+                break;
         }
 
 

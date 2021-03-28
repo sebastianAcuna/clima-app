@@ -36,20 +36,38 @@ const inquirerMenu = async() => {
 }
 
 
-const menuListadoTareas = async( data = [] ) => {
+const listarLugares = async( lugares = [] ) => {
+
+
+    const choices  = lugares.map((lugar, i) =>{
+
+        const idx = `${i + 1}. `.green;
+
+        return {
+            value: lugar.id,
+            name: `${idx} ${lugar.nombre}`
+        }
+    })
+
+
+    choices.unshift({
+        value:'0',
+        name:`${'0'.green} Cancelar`
+    });
+
 
 
     const menuOpts = [
         {
             type: 'list',
-            name: 'opcion',
-            message: 'Eliminar Tarea',
-            choices: data
+            name: 'id',
+            message: 'Seleccione lugar : ',
+            choices: choices
         }     
     ]
 
-    const {opcion} = await inquirer.prompt(menuOpts);
-    return opcion;
+    const {id} = await inquirer.prompt(menuOpts);
+    return id;
 }
 
 
@@ -106,7 +124,7 @@ module.exports = {
     inquirerMenu,
     pausa,
     leerInput,
-    menuListadoTareas,
+    listarLugares,
     confirmar,
     mostrarListadoCheckList
 }
